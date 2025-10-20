@@ -8,11 +8,18 @@ const { obterToken } = require("../helpers/authentication");
 
 describe("Transferências", () => {
   describe("POST /transferencias", () => {
-    it("Deve retornar com sucesso 201 quando o valor da transferencia for igual ou acima de 10 reais", async () => {
+
+    let token; //precisa ser criada fora do escopo before each para poder ser usada dentro dos its
+
+    beforeEach(async () => { //before each roda sempre antes dos IT, rodara todas as vezes que o IT aparecer.
       //pegando o token
-
-      const token = await obterToken(process.env.LOGIN_BANCO, process.env.SENHA_BANCO);
-
+      token = await obterToken(
+        process.env.LOGIN_BANCO,
+        process.env.SENHA_BANCO
+      );
+    });
+    
+    it("Deve retornar com sucesso 201 quando o valor da transferencia for igual ou acima de 10 reais", async () => {
       const resposta = await request(process.env.BASE_URL)
         .post("/transferencias")
         .set("Content-Type", "Application/json")
@@ -29,7 +36,10 @@ describe("Transferências", () => {
 
     it("Deve retornar falha(422) quando o valor da transferencia for abaixo de 10 reais", async () => {
       //pegando o token
-      const token = await obterToken(process.env.LOGIN_BANCO, process.env.SENHA_BANCO);
+      const token = await obterToken(
+        process.env.LOGIN_BANCO,
+        process.env.SENHA_BANCO
+      );
 
       const resposta = await request(process.env.BASE_URL)
         .post("/transferencias")
