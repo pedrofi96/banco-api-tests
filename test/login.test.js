@@ -1,6 +1,9 @@
 import request from 'supertest'; //Para que se possa fazer requisições a API
-import { expect } from 'chai'; //Para validar o que foi obtido de resposta e o valor que se esperava
+import {expect} from 'chai'; //Para validar o que foi obtido de resposta e o valor que se esperava
+import 'dotenv/config';
 
+//const request = require('supertest') //Para que se possa fazer requisições a API
+//const { expect } = require('chai') 
 
   describe('Login', () => { //mocha para estruturar os testes e executar eles.
     describe('POST /login', ()=>{
