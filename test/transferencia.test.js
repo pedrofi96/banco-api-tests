@@ -5,6 +5,7 @@ const request = require("supertest");
 const { expect } = require("chai");
 require("dotenv").config();
 const { obterToken } = require("../helpers/authentication");
+const postTransferencias = require('../fixtures/postTransferencias.json')
 
 describe("Transferências", () => {
   describe("POST /transferencias", () => {
@@ -18,18 +19,16 @@ describe("Transferências", () => {
         process.env.SENHA_BANCO
       );
     });
-    
+
     it("Deve retornar com sucesso 201 quando o valor da transferencia for igual ou acima de 10 reais", async () => {
+      const bodyTransferencias = {...postTransferencias}
+      bodyTransferencias.valor = 11;
+
       const resposta = await request(process.env.BASE_URL)
         .post("/transferencias")
         .set("Content-Type", "Application/json")
         .set("Authorization", `Bearer ${token}`)
-        .send({
-          contaOrigem: 1,
-          contaDestino: 2,
-          valor: 11,
-          token: "string",
-        });
+        .send(bodyTransferencias);
 
       expect(resposta.status).to.equal(201);
     });
